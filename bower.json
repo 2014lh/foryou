@@ -1,0 +1,27 @@
+{
+  "name": "nodeBlog",
+  "description": "",
+  "main": "",
+  "authors": [
+    "lh"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "node/public"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "bootstrap": "^3.3.7",
+    "showdown": "^1.4.2",
+    "editor.md": "^1.5.0"
+  },
+  "devDependencies": {
+    "angular": "angularjs#^1.5.8"
+  }
+}

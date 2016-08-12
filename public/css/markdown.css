@@ -1,0 +1,66 @@
+input{
+	border:0;
+	outline:none;
+}
+input:focus{
+    border:0;/*这里你可以自己调节边框样式*/
+}
+.clearfix:after{
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+/* End hide from IE-mac */
+.home-content{
+	height: auto;
+	width: 100%;
+	overflow: hidden;
+}
+.home-content-text textarea{
+	height: 100%;
+	width: 100%;
+	max-width: 100%;
+	overflow: hidden;
+}
+.home-content-text{
+	height: 100%;
+	width: 100%;
+}
+.outHtml{
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 50%;
+    bottom: 0;
+    overflow: auto;
+    padding: 10px;
+    padding-left: 20px;
+    color: #444;
+    font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+    font-size: 16px;
+    line-height: 1.5em;
+}
+.mark-none{
+	display: none;
+}
+#editormd{
+	z-index: 1031;
+}
+.editor-container{
+	height: 55px;
+	background: #EDECE4;
+	padding: 0 10px;
+}
+.editor-container input{
+	margin-top:10px;
+	line-height: 35px;
+	height: 35px;
+	font-size: 20px;
+	padding:0 10px;
+	width: 100%;
+	font-weight:550;
+}

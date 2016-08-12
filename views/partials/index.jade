@@ -1,0 +1,10 @@
+block content
+	p There are {{posts.length}}
+	div(ng-repeat='post in posts').homepage
+	  h3 {{post.title}}
+	  div {{post.text}}
+	  a(href='/readPost/{{post.id}}') More
+	  |  - 
+	  a(href='/editPost/{{post.id}}') Edit
+	  |  - 
+	  a(href='/deletePost/{{post.id}}') Delete
