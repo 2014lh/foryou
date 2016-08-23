@@ -1,7 +1,35 @@
-h2 Edit post
-label(for='title') Title: 
-input(ng-model='form.title', name='title')
-p Body:
-textarea(ng-model='form.text', cols='50', rows='15')
-p
-  button(ng-click='editPost()') Edit Post
+append head
+	script(src='../showdown/dist/showdown.min.js')
+	<link rel="stylesheet" href="../editor.md/css/editormd.min.css" />
+	link(rel='stylesheet',href='../css/markdown.css')
+block content
+	div.container-fluid.homepage
+		div.editor-container
+			input(ng-model='form.title', name='title').editor-title
+		div.home-content.clearfix
+			div#editormd.home-content-text
+				textarea#myMd.mark-none(ng-model='form.text') ### Hello Editor.md !
+		a#submit.btn.btn-success.btn-lg.submit-btn(ng-click='') Edit Post
+append scripts
+	script(src='../editor.md/src/editormd.js')
+	script.
+		(function(){
+			var converter = new showdown.Converter(),
+				mark=document.getElementById('editormd'),
+				markHtml=document.getElementById('markHtml'),
+				testEditor=editormd({
+					id:"editormd",
+					width:"100%",
+					height:640,
+					path:"../editor.md/lib/",
+					markdown:"",
+					codeFold:true
+				});
+			document.getElementById('submit').onmousedown=function(){
+				var scope = angular.element(document.getElementById('myMd')).scope();
+				scope.form.text = testEditor.getMarkdown();
+				scope.editPost();
+			}
+		})();
+
+

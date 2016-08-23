@@ -3,9 +3,16 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "cookie-parser": "^1.4.3",
     "express": "2.5.10",
+    "express-session": "^1.14.0",
+    "express-validator": "^2.20.8",
     "jade": ">= 0.0.1",
-    "mongoose": "^4.5.8"
+    "mongodb": "^2.2.5",
+    "mongoose": "^4.5.8",
+    "node-jsdom": "^3.1.5",
+    "sanitize-html": "^1.13.0",
+    "showdown": "^1.4.3"
   },
   "devDependencies": {}
 }

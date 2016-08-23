@@ -1,21 +1,22 @@
-extends ../layout
 block content
-	div.container
-		div.list-container
-			ul.article-list
-				li.have-img.clearfix
-					a.wrap-img
-						img(src="../images/indexBg4.jpg")
-					div
-						p.list-top
-							a.author-name.blue-link 刘恒
-							em .
-							span.time 2010-10-12
-						h4.title
-							a(src="/partials/blogContent") 最智慧的女配角--致敬班婕妤
-						div.list-footer
-							a 阅读 23 
-							a . 评论 1 
-							span . 喜欢 1
+	div.container.homepage2
+		div.article
+			div.preview
+				div.author-info
+					a.avatar
+						img(src="images/indexBg2.jpeg")
+					span.label 作者
+					a.author-name.blue-link
+						span 刘恒
+					span 2016.08.22 14:31
+				h1.title {{post.title}}
+				div.meta-top
+					span 字数1051
+					span 阅读7657
+					span 阅读7657
+					span 阅读7657
+				div#article-content.show-content(ng-bind-html="post.html")
 append scripts
+	script(src='../showdown/dist/showdown.min.js')
 	script.
+

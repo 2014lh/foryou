@@ -1,0 +1,31 @@
+block content
+	div.container.homepage2
+		div.article
+			div.preview
+				div.author-info
+				h1.title
+				div.meta-top
+					span 字数1051
+					span 阅读7657
+					span 阅读7657
+					span 阅读7657
+				div.show-content
+					
+		div.list-container
+			ul.article-list(ng-repeat='post in posts')
+				li.have-img.clearfix
+					a.wrap-img
+						img(src="../images/indexBg4.jpg")
+					div
+						p.list-top
+							a.author-name.blue-link 刘恒
+							em .
+							span.time 2010-10-12
+						h4.title
+							a(src="/partials/blogContent") {{post.title}}
+						div.list-footer
+							a 阅读 23 
+							a . 评论 1 
+							span . 喜欢 1
+append scripts
+	script.

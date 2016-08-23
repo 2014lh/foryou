@@ -1,34 +1,36 @@
-extends ../layout
-block head
-	script(src='../showdown/dist/showdown.min.js')
-	<link rel="stylesheet" href="../editor.md/css/editormd.min.css" />
-	link(rel='stylesheet',href='../css/markdown.css')
+append head
+	<link rel="stylesheet" href="editor.md/css/editormd.min.css" />
+	link(rel='stylesheet',href='css/markdown.css')
 block content
 	div.container-fluid.homepage
-		form
-			div.editor-container
-				input(ng-model='form.title', name='title',placeholder='标题').editor-title
-			div.home-content.clearfix
-				div#editormd.home-content-text
-					textarea.mark-none ### Hello Editor.md !
-		a#submit.btn.btn-success.btn-lg.submit-btn Submit Blog
+		div.editor-container
+			input(ng-model='form.title',placeholder='标题').editor-title
+		div.home-content.clearfix
+			div#editormd.home-content-text
+				textarea#myMd.mark-none(name='text' ng-model='form.text') ### Hello Editor.md !
+		a#submit.btn.btn-success.btn-lg.submit-btn(ng-click='') Submit Blog
 append scripts
+	script(src='../showdown/dist/showdown.min.js')
+	script(src='../zepto/zepto.min.js')
 	script(src='../editor.md/src/editormd.js')
 	script.
+		var jQuery = Zepto;
 		(function(){
 			var converter = new showdown.Converter(),
 				mark=document.getElementById('editormd'),
-				markHtml=document.getElementById('markHtml'),
-				testEditor=editormd({
-					id:"editormd",
-					width:"100%",
-					height:640,
-					path:"../editor.md/lib/",
-					markdown:"md",
-					codeFold:true
-				});
-			document.getElementById('submit').onclick=function(){
-				console.log(testEditor.getMarkdown());
+				markHtml=document.getElementById('markHtml');
+			testEditor=editormd({
+				id:"editormd",
+				width:"100%",
+				height:640,
+				path:"../editor.md/lib/",
+				markdown:"",
+				codeFold:true
+			});
+			document.getElementById('submit').onmousedown=function(){
+				var scope = angular.element(document.getElementById('myMd')).scope();
+				scope.form.text = testEditor.getMarkdown();
+				scope.submitPost();
 			}
 		})();
 
