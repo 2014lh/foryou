@@ -23,10 +23,11 @@
   html = "<html><body></body></html>";
 
   postPre = function(req, res, cb) {
-    var blogHtml, content, contentBegin, date, errows, i, img, imgs, ip, j, tags, title;
+    var blogHtml, content, contentBegin, date, errows, i, img, imgs, ip, j, tags, title, userid, username;
     req.assert('text', 'Content should not be empty！').notEmpty();
     req.assert('title', 'Title should not be empty！').notEmpty();
     errows = req.validationErrors();
+    date = new Date();
     if (errows) {
       res.json({
         err: errows,
@@ -42,8 +43,9 @@
           id: i
         });
       }
-      console.log(tags);
       imgs = [];
+      username = req.session.name;
+      userid = req.session.userid;
       blogHtml = converter.makeHtml(content);
       img = '';
       contentBegin = '';
@@ -55,7 +57,7 @@
       });
       date = new Date();
       ip = req.ip;
-      cb(content, blogHtml, title, tags, imgs, contentBegin, img, date, ip);
+      cb(content, username, userid, blogHtml, title, tags, imgs, contentBegin, img, date, ip);
     }
   };
 
@@ -64,7 +66,9 @@
       var posts;
       posts = [];
       if (err) {
-        return console.log(blogs[0].contentBegin.toString());
+        return res.json({
+          success: false
+        });
       } else {
         blogs.forEach(function(post, i) {
           return posts.push({
@@ -75,6 +79,29 @@
         });
         return res.json({
           posts: blogs
+        });
+      }
+    });
+  };
+
+  exports.myPosts = function(req, res) {
+    return Blog.returnSelfBlog(req.session.userid, function(err, blogs) {
+      var posts;
+      posts = [];
+      if (err) {
+        return res.json({
+          success: false
+        });
+      } else {
+        blogs.forEach(function(post, i) {
+          return posts.push({
+            id: post._id,
+            title: post.title,
+            text: (post.content.substr(0, 50)) + '...'
+          });
+        });
+        return res.json({
+          posts: posts
         });
       }
     });
@@ -160,7 +187,8 @@
   };
 
   exports.post = function(req, res) {
-    return postPre(req, res, function(content, blogHtml, title, tags, imgs, contentBegin, date, ip) {
+    return postPre(req, res, function(content, username, userid, blogHtml, title, tags, imgs, contentBegin, img, date, ip) {
+      date;
       var blog;
       blog = new Blog({
         content: content,
@@ -169,7 +197,8 @@
         blogHtml: blogHtml,
         tags: tags,
         imgs: imgs,
-        user: req.session.user,
+        username: username,
+        userid: userid,
         date: date,
         time: {
           year: date.getFullYear(),
@@ -189,7 +218,9 @@
         } else {
           console.log('emodoou_text:sucess');
         }
-        return res.redirect('/index');
+        return res.json({
+          success: true
+        });
       });
     });
   };
@@ -219,7 +250,7 @@
   exports.editBlog = function(req, res) {
     var id;
     id = req.params.id;
-    return postPre(req, res, function(content, blogHtml, title, tags, imgs, contentBegin, img, date, ip) {
+    return postPre(req, res, function(content, username, userid, blogHtml, title, tags, imgs, contentBegin, img, date, ip) {
       var blog;
       blog = {
         content: content,
@@ -227,12 +258,7 @@
         contentBegin: contentBegin,
         tags: tags,
         blogHtml: blogHtml,
-        img: {
-          px600: img.replace('px1366', 'px600'),
-          px200: img.replace('px1366', 'px200'),
-          original: img.replace('px1366', ''),
-          px1366: img
-        },
+        img: [],
         imgs: imgs
       };
       return Blog.update({
@@ -273,7 +299,6 @@
   exports.deleteBlog = function(req, res) {
     var id;
     id = req.query.id;
-    console.log(id);
     return Blog.remove({
       _id: id
     }).exec(function(err) {

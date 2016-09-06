@@ -19,6 +19,7 @@ postPre = (req, res, cb)->
   req.assert('text', 'Content should not be empty！').notEmpty()
   req.assert('title', 'Title should not be empty！').notEmpty()
   errows = req.validationErrors()
+  date = new Date()
   if errows
     res.json
       err: errows
@@ -28,10 +29,10 @@ postPre = (req, res, cb)->
     title = req.body.title
     tags=[]
     tags.push({tag:req.body['tag'+i.toString()],id:i}) for i in [1..3]
-    console.log tags
     imgs = []
+    username = req.session.name
+    userid = req.session.userid
     blogHtml=converter.makeHtml(content)
-    #console.log blogHtml
     img = ''
     contentBegin=''
     blogHtml=sanitizeHtml blogHtml,
@@ -40,7 +41,7 @@ postPre = (req, res, cb)->
         'a':['href']
     date = new Date()
     ip = req.ip
-    cb content, blogHtml, title, tags, imgs, contentBegin, img, date, ip
+    cb content, username, userid, blogHtml, title, tags, imgs, contentBegin, img, date, ip
     
   return
 
@@ -48,7 +49,8 @@ exports.blogAll = (req, res)->
   Blog.returnAllBlog( (err,blogs)->
     posts = []
     if err
-      console.log blogs[0].contentBegin.toString()
+      res.json
+        success:false
     else
       blogs.forEach((post, i)->
         posts.push
@@ -61,11 +63,28 @@ exports.blogAll = (req, res)->
 
   )
 
+exports.myPosts = (req, res)->
+  Blog.returnSelfBlog(req.session.userid,(err,blogs)->
+    posts=[]
+    if err
+      res.json
+        success:false
+    else
+      blogs.forEach((post, i)->
+        posts.push
+          id: post._id,
+          title: post.title,
+          text: (post.content.substr 0, 50 )+ '...'
+      )   
+      res.json
+        posts:posts
+  )
+ 
+
 exports.blogPerpage = (req, res)->
   Blog.returnPerpageBlogIndex(Perpage, (err, blogs, count)->
     if err
       blogs = []
-    #console.log blogs[0].contentBegin.toString()
     res.render 'blog/bloglist',
       title: settings.titles.blog_bloglist,
       posts: blogs,
@@ -120,7 +139,8 @@ exports.postView = (req, res)->
 
 
 exports.post = (req, res)->
-  postPre(req, res, (content, blogHtml, title, tags, imgs, contentBegin, date, ip)->
+  postPre(req, res, (content, username, userid, blogHtml, title, tags, imgs, contentBegin, img, date, ip)->
+    date
     blog = new Blog(
       content: content,
       title: title,
@@ -128,7 +148,8 @@ exports.post = (req, res)->
       blogHtml:blogHtml,
       tags: tags,
       imgs: imgs,
-      user: req.session.user,
+      username: username,
+      userid: userid,
       date: date,
       time:
         year: date.getFullYear(),
@@ -145,7 +166,8 @@ exports.post = (req, res)->
           err:err
       else
          console.log('emodoou_text:sucess');
-        res.redirect '/index'
+        res.json
+          success:true
     )
   )
 
@@ -167,20 +189,14 @@ exports.editBlogView = (req, res)->
 
 exports.editBlog = (req, res)->
   id = req.params.id
-  postPre req, res, (content, blogHtml, title, tags, imgs, contentBegin, img, date, ip)->
-
+  postPre req, res, (content, username, userid, blogHtml, title, tags, imgs, contentBegin, img, date, ip)->
     blog =
       content: content,
       title: title,
       contentBegin: contentBegin,
       tags: tags,
       blogHtml:blogHtml,
-      img:
-        px600: img.replace 'px1366','px600'
-        px200: img.replace 'px1366','px200'
-        original: img.replace 'px1366',''
-        px1366: img
-
+      img:[]
       imgs: imgs
 
     Blog.update {_id: id}, {$set: blog, $push: {"editDate": {date: date, ip: ip}}}, (err, num, row)->
@@ -200,7 +216,6 @@ exports.viewIndex = (req, res)->
       user: req.session.user
 exports.deleteBlog = (req, res)->
   id = req.query.id
-  console.log id
   Blog.remove({_id: id}).exec (err)->
     if err
       res.json({success: false})

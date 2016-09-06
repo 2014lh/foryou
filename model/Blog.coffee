@@ -112,7 +112,6 @@ blogSchema.statics =
       aggregator.count += 1
       aggregator.blogs.push doc
     @collection.group keys, condition, initial, reduce, null, null, null, (err, results)->
-      #console.log results
       compare = (value1, value2)->
         new Date(value2['time.month']) - new Date(value1['time.month'])
       compare2 = (value1, value2)->
@@ -120,7 +119,6 @@ blogSchema.statics =
       results.sort compare
       .forEach (item, index, arr)->
         item.blogs.sort compare2
-      #console.log results
       cb err, results
 
     readTopAndCount:(cb)->

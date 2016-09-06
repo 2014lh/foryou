@@ -63,6 +63,7 @@
 
   blogSchema.statics = {
     returnSelfBlog: function(userid, cb) {
+      console.log(userid);
       return this.find({
         userid: userid
       }).sort({

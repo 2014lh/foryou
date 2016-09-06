@@ -12,6 +12,7 @@ var express = require('express'),
   cookieParser = require('cookie-parser'),
   session = require('express-session'),
   settings=require('./routes/settings');
+  common= require('./controller/common');
 
 // Configuration
 
@@ -32,10 +33,28 @@ app.configure(function(){
     layout: false
   });
   app.use(express.bodyParser());
+  app.use(expressValidator({
+    errorFormatter: function(param, msg, value) {
+        var namespace = param.split('.')
+        , root    = namespace.shift()
+        , formParam = root;
+
+      while(namespace.length) {
+        formParam += '[' + namespace.shift() + ']';
+      }
+      return {
+        param : formParam,
+        msg   : msg,
+        value : value
+      };
+    }
+  }));
   app.use(express.methodOverride());
   app.use(express.static(__dirname + '/public'));
   app.use(app.router);
+
 });
+
 
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
@@ -54,6 +73,7 @@ app.post('/user/login/', user.login);
 app.get('/blog/posts', blog.blogAll);
 app.get('/blog/post/:id', blog.perBlog);
 
+app.get('/blog/myposts',common.loginChecked,blog.myPosts);
 
 app.post('/blog/post', blog.post);
 // app.put('/api/post/:id', api.editPost);
@@ -62,25 +82,8 @@ app.post('/blog/post', blog.post);
 app.get('*', routes.index);
 // Start server
 
-app.use(expressValidator({
-  errorFormatter: function(param, msg, value) {
-      var namespace = param.split('.')
-      , root    = namespace.shift()
-      , formParam = root;
-
-    while(namespace.length) {
-      formParam += '[' + namespace.shift() + ']';
-    }
-    return {
-      param : formParam,
-      msg   : msg,
-      value : value
-    };
-  }
-}));
-
-
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
+

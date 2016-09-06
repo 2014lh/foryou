@@ -19,6 +19,10 @@ var myApp=angular.module('myApp', ['ngRoute','myApp.filters', 'myApp.services', 
         templateUrl: 'partials/editPost',
         controller: EditPostCtrl
       }).
+      when('/myPosts',{
+        templateUrl: 'partials/myPosts',
+        controller: MyPostCtrl  
+      }).
       when('/deletePost/:id', {
         templateUrl: 'partials/deletePost',
         controller: DeletePostCtrl

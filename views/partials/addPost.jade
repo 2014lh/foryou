@@ -1,5 +1,4 @@
 append head
-	<link rel="stylesheet" href="editor.md/css/editormd.min.css" />
 	link(rel='stylesheet',href='css/markdown.css')
 block content
 	div.container-fluid.homepage
@@ -15,10 +14,8 @@ append scripts
 	script(src='../editor.md/src/editormd.js')
 	script.
 		var jQuery = Zepto;
+		var testEditor;
 		(function(){
-			var converter = new showdown.Converter(),
-				mark=document.getElementById('editormd'),
-				markHtml=document.getElementById('markHtml');
 			testEditor=editormd({
 				id:"editormd",
 				width:"100%",

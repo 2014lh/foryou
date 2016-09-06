@@ -62,7 +62,7 @@
         return res.redirect('/index');
       } else {
         if (count > 0) {
-          req.session.username = user.username;
+          req.session.user = user.user;
           req.session.userid = user.userid;
           return res.json({
             success: true
@@ -74,14 +74,6 @@
         }
       }
     });
-  };
-
-  exports.loginChecked = function(req, res) {
-    if (!req.session.user) {
-      return true;
-    } else {
-      return false;
-    }
   };
 
 }).call(this);

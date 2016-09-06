@@ -43,7 +43,7 @@ exports.login = (req, res)->
 			res.redirect('/index')
 		else
 			if count> 0
-        req.session.username = user.username
+        req.session.user = user.user
         req.session.userid = user.userid
         res.json
           success:true
@@ -51,11 +51,6 @@ exports.login = (req, res)->
         res.json
           success:false
 
-exports.loginChecked = (req, res)->
-	if !req.session.user
-		return true
-	else
-		return false
 
 
 

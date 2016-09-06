@@ -9,6 +9,7 @@ html(ng-app="myApp")
         base(href='/')
         link(rel='stylesheet',href='/bootstrap/dist/css/bootstrap.min.css')
         link(rel='stylesheet',href='/css/app.css')
+        link(rel="stylesheet" href="/editor.md/css/editormd.min.css")
         block head
     body(data-spy='scroll', data-target='.bs-navbar-scrollspy')
         block mynav
@@ -21,14 +22,14 @@ html(ng-app="myApp")
                             span.icon-bar
                             span.icon-bar
                         a.navbar-brand(href='/')
-                            img(src='/images/lingyong_blue_50px.png')
+                            img(src='/images/foryou.png')
 
                     div.collapse.navbar-collapse
                         ul.nav.navbar-nav
                             li
                                 a(href='/') Home
                             li
-                                a(href='/readPost') Blog
+                                a(href='/myPosts') Blog
                             li
                                 a(href='/addPost') Add
                         ul.nav.navbar-nav.navbar-right
@@ -56,10 +57,10 @@ html(ng-app="myApp")
                             .col-md-12
                                 ul.list-inline
                                     li
-                                        a(href='http://weibo.com/u/2306351554')
+                                        a(href='http://weibo.com/u/3199605414')
                                             i.fa.fa-weibo
                                     li
-                                        a(href='https://github.com/soliury')
+                                        a(href='https://github.com/2014lh/foryou')
                                             i.fa.fa-github
 
                             .col-md-12
@@ -67,10 +68,10 @@ html(ng-app="myApp")
                                     li  Power By &nbsp;
                                         a(href='http://nodejs.org') Node.js
                                     li  Host By &nbsp;
-                                        a(href='https://www.digitalocean.com/?refcode=107abaf7339b') DigitalOcean
+                                        a() DigitalOcean
 
-                                    li  2014, &nbsp;lingyong.me  &copy; By &nbsp;
-                                        a(href='http://lingyong.me') lingyong
+                                    li  2016, &nbsp;  &copy; By &nbsp;
+                                        a(href='https://github.com/2014lh/foryou') liuheng
 
 
         script(src='/jquery/dist/jquery.min.js')

@@ -22,7 +22,6 @@ text-decoration:none;
 }
 a:-webkit-any-link{
     color: -webkit-link;
-    text-decoration: underline;
     cursor: auto;
 }
 em{
@@ -33,6 +32,18 @@ em{
   border-bottom: 0.1em solid black;
   margin-bottom: 2em;
   padding: 0 0 0.5em;
+}
+.fa{
+  font-family: "fontello"; 
+  font-size: inherit;
+  text-rendering: auto;
+}
+.fa-weibo:before{
+    content: "\f18a";
+}
+
+.fa-github:before {
+  content: "\f09b";
 }
 
 .menu:before {
@@ -194,9 +205,9 @@ body pre {
     word-wrap: break-word;
 }
 .wrap-img{
-    float: right;
     width: 100px;
     height: 100px;
+    float: right;
 }
 .wrap-img img{
   width: 100%;
@@ -210,9 +221,9 @@ body pre {
     font-size: 12px;
 }
 .author-name{
-   margin-right: 3px;
-   padding: 0 5px;
+   margin:0 3px;
 }
+
 .blue-link{
   color: #4094c7;
 }

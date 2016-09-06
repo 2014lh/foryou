@@ -5,9 +5,19 @@
 function IndexCtrl($scope, $http) {
   $http.get('/blog/posts').
     success(function(data, status, headers, config) {
+      console.log('sucess');
       $scope.posts = data.posts;
     }).error(function(){
-      console.log(1111111111);
+      
+    });
+}
+
+function MyPostCtrl($scope, $http) {
+  $http.get('/blog/myposts').
+    success(function(data, status, headers, config) {
+      $scope.posts = data.posts;
+    }).error(function(){
+      
     });
 }
 
@@ -45,6 +55,7 @@ function EditPostCtrl($scope, $http, $location, $routeParams) {
 function loginCtrl($scope, $http, $routeParams,$location){
   $scope.user={};
   $scope.userLogin = function () {
+    console.log(1111);
     $http.post('/user/login/', $scope.user).
       success(function(data) {
         $location.url('/');
